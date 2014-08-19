@@ -151,16 +151,19 @@ class Document(db.Model):
 class Employer(db.Model):
     employer_name = db.Column(db.String(100), primary_key=True)
     num_ratings = db.Column(db.Integer)
-    score = db.Column(db.Numeric)
-    ceo = db.Column(db.String(100))
+    score = db.Column(db.String)
+    ceo_name = db.Column(db.String(100))
+    num_ceo_reviews = db.Column(db.Integer)
     # ceo_approval rate e.g. 98 -> 98%
     ceo_approval = db.Column(db.Integer)
 
-    def __init__(self, employer_name, num_ratings, score, ceo, ceo_approval):
+    def __init__(self, employer_name, num_ratings, score, ceo_name,
+                 num_ceo_reviews, ceo_approval):
         self.employer_name = employer_name
         self.num_ratings = num_ratings
         self.score = score
-        self.ceo = ceo
+        self.ceo_name = ceo_name
+        self.num_ceo_reviews = num_ceo_reviews
         self.ceo_approval = ceo_approval
 
     def __repr__(self):
