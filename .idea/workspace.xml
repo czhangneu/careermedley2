@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c0db4b69-8e22-4bca-be31-c67bfa675dae" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/application/views.py" />
-    </list>
+    <list default="true" id="c0db4b69-8e22-4bca-be31-c67bfa675dae" name="Default" comment="" />
     <ignored path="careermedley2.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
