@@ -169,6 +169,98 @@ class Employer(db.Model):
     def __repr__(self):
         return '<Employer: %s>' % (self.employer_name)
 
+# ------------------------------------------------------------------------------------
+class Employer_site_login_info(db.Model):
+    id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
+    employer_name = db.Column(db.String, db.ForeignKey('employer.employer_name'), primary_key=True)
+    login_link = db.Column(db.String)
+    site_id = db.Column(db.String)
+    site_password = db.Column(db.String)
+    site_email = db.Column(db.String)
+    user = db.relationship(User, uselist=False, backref="employer_site_login_info")
+    employer = db.relationship(Employer, uselist=False, backref="employer_site_login_info")
+
+    def __init__(self, id, employer_name, login_link, site_id, site_password, site_email):
+        self.id = id
+        self.employer_name = employer_name
+        self.login_link = login_link
+        self.site_id = site_id
+        self.site_password = site_password
+        self.site_email = site_email
+
+    def __repr__(self):
+        return '<Employer_site_login_info | account: %s, employername: %s>' \
+               % (self.id, self.employer_name)
+
+# ------------------------------------------------------------------------------------
+class Application_status(db.Model):
+    id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
+    jobkey = db.Column(db.String, db.ForeignKey('position.jobkey'), primary_key=True)
+    employer_name = db.Column(db.String, db.ForeignKey('position.employername'))
+    # status: should be an enumeration type: applied | interviewing | offer or rejection
+    status = db.Column(db.String)
+
+    user = db.relationship(User, uselist=False, backref="application_status")
+    position = db.relationship(Position, uselist=False, backref="application_status")
+
+    def __int__(self, id, jobkey, employer_name, status):
+        self.id = id
+        self.jobkey = jobkey
+        self.employer_name = employer_name
+        self.status = status
+
+    def __repr__(self):
+        return '<Application_status | accountid : %s, jobkey : %s>' \
+               % (self.id, self.jobkey)
+# ---------------------------------------------------------------------------------------------------
+# for past or future interviews
+class Interview(db.Model):
+    id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
+    jobkey = jobkey = db.Column(db.String, db.ForeignKey('position.jobkey'), primary_key=True)
+    employer_name = db.Column(db.String, db.ForeignKey('position.employername'))
+    interview_round = db.Column(db.Integer)
+    interview_date = db.Column(db.DateTime)
+
+    user = db.relationship(User, uselist=False, backref="application_status")
+    position = db.relationship(Position, uselist=False, backref="application_status")
+
+    def __int__(self, id, jobkey, employer_name, interview_round, interview_date):
+        self.id = id
+        self.jobkey = jobkey
+        self.employer_name = employer_name
+        self.interview_round = interview_round
+        self.interview_date = interview_date
+
+    def __repr__(self):
+        return '<Interview | accountid: %s, jobkey : %s, round: %d>' \
+               % (self.id, self.jobkey, self.interview_round)
+
+# ---------------------------------------------------------------------------------------------------
+class Interview_question(db.Model):
+    id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
+    jobkey = jobkey = db.Column(db.String, db.ForeignKey('position.jobkey'), primary_key=True)
+    employer_name = db.Column(db.String, db.ForeignKey('position.employername'))
+    interview_round = db.Column(db.Integer)
+    question = db.Column(db.String)
+    solution = db.Column(db.String)
+    feedback = db.Column(db.String)
+
+    user = db.relationship(User, uselist=False, backref="application_status")
+    position = db.relationship(Position, uselist=False, backref="application_status")
+
+    def __init__(self, id, jobkey, employer_name, interview_round, queston, solution, feedback):
+        self.id = id
+        self.jobkey = jobkey
+        self.employer_name = employer_name
+        self.interview_round = interview_round
+        self.question = queston
+        self.solution = solution
+        self.feedback = feedback
+
+    def __repr__(self):
+        return '<Interview_question | accountid: %s, jobkey : %s, round: %d, question: %s>' \
+               % (self.id, self.jobkey, self.interview_round, self.question)
+
 # ---------------------------------------------------------------------------------------------------
 # create index for table: Position
 whooshalchemy.whoosh_index(app, Position)
